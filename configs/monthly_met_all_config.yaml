@@ -1,0 +1,73 @@
+app_name: get_monthly_mobility_metrics
+
+job_spark:
+    n_workers: 15 # 10
+    temp_folder: /data/cache/sdsc_tmp
+    mem: 100g # 80g
+    verbose: True
+
+
+paths:
+    compute_mobility_metrics:
+        demographics_path:   # >> Define input path with demographic data
+        input_path: # >> Define input path with stop data
+        output_networks_path: # >> Define path to save user networks by user_group
+        output_metrics_path:   # >> Define path to save user metrics by user_group
+        output_all_metrics_path:  # >> Define path to save user metrics across all users as pandas
+        output_filename:  "user_metrics_all.csv" # "user_metrics_rsC.csv" 
+
+    compute_seq_tours:
+        demographics_path: /work/shared/safe_data/users/users_demographics_and_country/
+        input_path:  # >> Define input path with stop data
+        output_seqeff_path: # >> Define path to save user sequence meetrics by user_group
+        output_tour_path:  # >> Define path to save user tour by user_group
+        output_dffinal_path: # >> Define path to save user metrics across all users as pandas
+        output_seqeff_filename:  "user_seqeff_all.csv"
+        output_tour_filename:  "user_tours_all.csv" 
+
+
+aggregation:
+    base_cols: ["useruuid", "gender", "GID_0"] # if we want to keep demo cols, they need to be here
+    demo_cols: ["gender", "GID_0"] 
+    time_sort_cols: ["start"]
+    time_agg_cols: ["start_month"]
+    get_OD_netw: False # whether to save networks as origin-destination file
+    get_allmet_pdf: True # whether to save all user groups metrics as pandas df
+    suffix: "" # _test
+
+home_work_detection:
+    get_howde: True
+    params_config: 
+        range_window_home: 28
+        range_window_work: 42
+        C_hours: 0.4
+        C_days_H: 0.4
+        C_days_W: 0.5
+        f_hours_H: 0.7
+        f_hours_W: 0.4
+        f_days_W: 0.6
+
+        is_time_local: True  # If True, timestamps in input are already in local time
+        data_for_predict: False  # If True, uses past-only data in sliding windows (prediction mode)
+
+        min_stop_t: 60  # Minimum duration of a stop in seconds
+        
+        start_hour_day: 6 # Start of the 'home hours' interval
+        end_hour_day: 24  # End of the 'home hours' interval
+        start_hour_work: 8  # Start of the 'work hours' interval >>> UPDATED
+        end_hour_work: 18  # End of the 'work hours' interval >>> UPDATED
+        
+        output_format: "stop"
+        verbose: False
+
+metrics:
+    mobility_metrics: ["visits" , "locations", "total_stay_time", "total_travel_time", "total_cost_travel_distance", "total_reward_home_distance", tour_efficiency_dist]
+    mobility_aux_metrics: ['has_home', 'coverage_stay_time', 'sum_home_distance', 'max_home_distance', 'max_reward_home_distance'] # auxiliary metrics we want to keep
+
+    network_metrics: ["nodes", "edges", "density", "avg_unw_cluster",  "n_cycles", "top1_degree_centrality", "global_efficiency_edges"]
+    network_aux_metrics: ["top2_degree_centrality", "top3_degree_centrality", "avg_len_cycles_all", "n_cycles_per_edge"]  # auxiliary metrics we want to keep
+    
+    efficiency_metrics: ['nwide_MFPT_lovasz', 'home_GMFPT_lovasz', 'global_efficiency_distance']
+
+sequnces_tours:
+    get_efficiency: True
