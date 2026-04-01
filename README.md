@@ -1,5 +1,5 @@
 
-# Gender Mobility Networks
+# Women's mobility networks enable more efficient travel
 
 This repository provides code and analysis resources for the study:
 
