@@ -3,7 +3,7 @@
 
 This repository provides code and analysis resources for the study:
 
-**Women mobility networks enable more efficient travel**
+**Women's mobility networks enable more efficient travel**
 
 It contains data-processing pipelines, statistical analysis scripts, and figure notebooks used to quantify and interpret gender differences in mobility behavior, mobility-network structure, tour organization, and travel efficiency.
 
@@ -26,6 +26,7 @@ The workflow centers on user-month mobility traces and evaluates, among other qu
 - `src/nearest_neighbor_matching/`: nearest-neighbor matching utilities to compare users under controlled activity/repertoire conditions.
 - `src/statistical_analysis/`: statistical helper functions (bootstrap summaries, distributional comparisons, quantile analyses).
 - `scripts/`: executable analysis scripts corresponding to the main stages of the paper.
+- `configs/`: YAML configuration files controlling Spark resources, temporal aggregation, enabled metrics, and input/output paths.
 - `notebooks/`: figure-generation notebooks (`fig1` to `fig4`).
 - `figures/`: exported figure outputs.
 
@@ -69,7 +70,6 @@ The script `scripts/05_compute_sequences_tours.py`:
 - Builds ordered stop sequences at the selected temporal resolution.
 - Cleans consecutive repeated stops.
 - Extracts tours/journeys and keystone locations.
-- Derives sequence-distance and reward/cost descriptors.
 
 ### 6. Analyze gender differences in tours (Figure 3)
 
@@ -110,13 +110,13 @@ Depending on your execution path (analysis scripts and notebooks), additional sc
 
 ## Data and Configuration
 
-This repository does not bundle raw mobility data. To reproduce results, provide:
+To reproduce results, provide:
 
 - Stop-level mobility records partitioned by user groups.
 - User-level demographic attributes including gender and country information.
 - Project-specific YAML configuration files (for Spark resources, aggregation resolution, paths, and enabled metrics).
 
-Most scripts expose editable `input_path` / `output_path` variables or config-driven path blocks. Update these locations to match your local or cluster environment.
+Most scripts expose editable `input_path` / `output_path` variables or config-driven path blocks. For pipeline scripts, place and update YAML files in `configs/` (for example, monthly run configurations) to match your local or cluster environment.
 
 ## Reproducibility Notes
 
@@ -128,7 +128,7 @@ Most scripts expose editable `input_path` / `output_path` variables or config-dr
 
 If you use this repository, please cite the associated paper:
 
-**Women mobility networks enable more efficient travel**
+**Women's mobility networks enable more efficient travel**
 
 ArXiv: link to be added.
 
