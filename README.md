@@ -107,45 +107,55 @@ pip howde
 
 ### Typical install time
 
-On a standard desktop computer with a stable internet connection, steps 3–4 take approximately 5–10 minutes.
+On a standard desktop computer with a stable internet connection, steps 3–4 take approximately 2 minutes (tested on macOS, Python 3.9.18).
 
 ---
 
 ## Demo
 
+> **Note:** The results obtained from this demo dataset are not intended to reproduce the findings reported in the paper. The goal is solely to demonstrate that the code runs correctly and can be applied to a sample of users. To reproduce the quantitative results from the manuscript, see [Instructions for Use](#instructions-for-use).
+
 ### Sample data
 
-<!-- TODO: is there a small sample dataset available for demo purposes? If so, describe it and where to find it. If not, describe the minimum input format needed. -->
+A simulated dataset of 100 users can be generated using the preferential return model (`data/demo/generate_demo_data.py`). The generator produces stop-level records that match the pipeline's expected input format, targeting a median of ~80 total visits and ~20 unique locations per user-month, distributed across 10 countries.
 
-The pipeline expects:
+Generate the demo data from the repository root:
 
-- Stop-level mobility records partitioned by user group (Parquet format recommended).
-- User-level demographic attributes including gender and country.
-- A YAML configuration file (see `configs/monthly_met_all_config.yaml` as a template).
+```bash
+python data/demo/generate_demo_data.py
+```
+
+This writes two files:
+- `data/demo/stops/user_group=00/stops.parquet` — stop records with columns `useruuid`, `loc`, `start`, `end`, `latitude`, `longitude`, `timezone`
+- `data/demo/demographics/demographics.parquet` — user attributes with columns `useruuid`, `gender`, `GID_0`, `NAME_0`
+
+Requires: `numpy`, `pandas`, `pyarrow`. No Spark needed for generation.
 
 ### Running the demo
 
-Update the paths in `configs/monthly_met_all_config.yaml` to point to your data, then run:
+A ready-to-use configuration file is provided at `configs/demo_config.yaml`. Run the metrics pipeline on the demo data:
 
 ```bash
-python scripts/01_compute_metrics.py --config configs/monthly_met_all_config.yaml
-```
-
-To run for a single user group:
-
-```bash
-python scripts/01_compute_metrics.py --config configs/monthly_met_all_config.yaml --user_group user_group=00
+python scripts/01_compute_metrics.py --config configs/demo_config.yaml
 ```
 
 ### Expected output
 
-The script writes per-group Parquet tables containing user-month-level mobility and network metrics, and optionally pooled tables for downstream analyses.
+The script writes:
+- `data/demo/output/metrics/user_group=00/` — per-group Parquet tables with user-month-level mobility and network metrics
+- `data/demo/output/user_metrics_demo.csv` — pooled metrics across all users, including activity/repertoire deciles and group labels
+
+To inspect and validate the outputs interactively, open the notebook:
+
+```bash
+jupyter notebook data/demo/inspect_demo_data.ipynb
+```
+
+The notebook loads both the raw input data and the pipeline output (`user_metrics_demo.csv`), checks schema compatibility, and provides descriptive statistics and plots for all metric groups.
 
 ### Expected run time
 
-<!-- TODO: add approximate run time for the demo/sample data on a normal desktop -->
-
-Run time on the full dataset is several hours per monthly batch on a compute cluster. Run time scales with data volume and PySpark configuration (memory, number of workers).
+On a standard desktop (4-core CPU, 8 GB RAM), generating the demo data takes under 10 seconds. Running `01_compute_metrics.py` on the 100-user demo dataset takes approximately 3-5 minutes with the default demo Spark configuration (2 workers, 4 GB memory).
 
 ---
 
@@ -192,15 +202,40 @@ Open the relevant notebook (`fig1` to `fig4`) and run all cells.
 
 ### Reproduction instructions
 
-To reproduce the quantitative results from the manuscript, run all seven scripts in order on the original dataset, then open and execute the figure notebooks. The intended execution model is strictly staged:
+To reproduce the quantitative results from the manuscript, follow the two-stage workflow below.
+
+**Stage A — Metric computation** (requires raw stop-level data)
+
+Raw stop-level mobility data are not publicly shared to preserve user anonymity. If you have access to equivalent stop-level traces, run the full pipeline:
 
 ```
 compute metrics → statistical analyses → figure generation
 ```
 
-Note:
-- Scripts 03 and 06 include shuffled-reference procedures; run time depends on sample size and iteration counts.
-- PySpark settings (memory, workers, tmp directories) are read from the YAML configuration and should be tuned to your infrastructure.
+PySpark settings (memory, workers, tmp directories) are read from the YAML configuration and should be tuned to your infrastructure. Scripts 03 and 06 include shuffled-reference procedures; run time depends on sample size and iteration counts.
+
+
+**Stage B — Reproduce analyses from pre-computed data** (recommended)
+
+The pre-computed metric datasets used in the paper are publicly available at:
+
+> [https://doi.org/10.11583/DTU.31835038](https://doi.org/10.11583/DTU.31835038)
+
+The repository contains two datasets:
+- **User metrics** — user-month-level mobility and network metrics (output of `scripts/01_compute_metrics.py`)
+- **Tour dataset** — identified tours and journey-level descriptors (output of `scripts/05_compute_sequences_tours.py`)
+
+All metrics are described in detail in the Methods section of the paper. Download these datasets, set the `input_path` variable at the top of each script to point to the downloaded files, then run scripts 02–07 and the figure notebooks directly — skipping the PySpark computation steps entirely:
+
+```bash
+python scripts/02_analyze_gender_diff_Nk.py        # → Figure 1
+python scripts/03_compute_nwmet_matching_byNk.py   # → Figures 2, 4a
+python scripts/04_analyze_gender_diff_nwmet.py     # → Figure 2
+python scripts/06_analyze_gender_diff_tours.py     # → Figure 3
+python scripts/07_anlayze_gender_diff_toureff.py   # → Figure 4
+jupyter notebook                                    # → open fig1–fig4 notebooks
+```
+
 
 ---
 
