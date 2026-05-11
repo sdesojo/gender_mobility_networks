@@ -159,7 +159,7 @@ On a standard desktop (4-core CPU, 8 GB RAM), generating the demo data takes und
 
 ### How to run on your data
 
-1. Prepare stop-level mobility data and demographic attributes in the expected format.
+1. Prepare stop-level mobility data and demographic attributes in the expected format. For a quick test, you can use the simulated demo dataset (see [Demo](#demo)): stops at `data/demo/stops/` and demographics at `data/demo/demographics/`.
 2. Create a YAML configuration file (based on `configs/monthly_met_all_config.yaml`) specifying input/output paths, Spark resources, temporal aggregation, and enabled metrics.
 3. Run the pipeline scripts in order:
 
@@ -253,7 +253,7 @@ jupyter notebook                                    # → open fig1–fig4 noteb
 If you use this repository, please cite the associated paper:
 
 ```bibtex
-@article{de2026women,
+@article{desojo2026women,
   title={Women's mobility networks enable more efficient travel},
   author={de Sojo, S{\'\i}lvia and Lehmann, Sune and Alessandretti, Laura},
   journal={arXiv preprint arXiv:2604.00943},
