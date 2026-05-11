@@ -1,8 +1,6 @@
 
 # Women's mobility networks enable more efficient travel
 
-## Overview
-
 This repository contains the full computational pipeline for:
 
 **[Women's mobility networks enable more efficient travel](https://arxiv.org/abs/2604.00943)**
@@ -23,15 +21,13 @@ For a complete, detailed description of the code's functionality, see [PSEUDOCOD
 
 
 ## Contents
-
-- [Overview](#overview)
-- [Repository Organization](#repository-organization)
 - [System Requirements](#system-requirements)
 - [Installation Guide](#installation-guide)
 - [Demo](#demo)
 - [Instructions for Use](#instructions-for-use)
-- [License](#license)
+- [Repository Organization](#repository-organization)
 - [Citation](#citation)
+- [License](#license)
 
 ---
 
