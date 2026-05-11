@@ -1,19 +1,6 @@
 
 # Women's mobility networks enable more efficient travel
 
-## Contents
-
-- [Overview](#overview)
-- [Repository Organization](#repository-organization)
-- [System Requirements](#system-requirements)
-- [Installation Guide](#installation-guide)
-- [Demo](#demo)
-- [Instructions for Use](#instructions-for-use)
-- [License](#license)
-- [Citation](#citation)
-
----
-
 ## Overview
 
 This repository contains the full computational pipeline for:
@@ -33,6 +20,18 @@ The pipeline quantifies these differences along four dimensions:
 The analysis runs in three stages: PySpark pipelines compute metrics from raw stop-level traces; Python scripts perform statistical analyses; Jupyter notebooks generate the publication figures. Each stage is self-contained and can be run independently given the appropriate inputs.
 
 For a complete, detailed description of the code's functionality, see [PSEUDOCODE.md](PSEUDOCODE.md).
+
+
+## Contents
+
+- [Overview](#overview)
+- [Repository Organization](#repository-organization)
+- [System Requirements](#system-requirements)
+- [Installation Guide](#installation-guide)
+- [Demo](#demo)
+- [Instructions for Use](#instructions-for-use)
+- [License](#license)
+- [Citation](#citation)
 
 ---
 
