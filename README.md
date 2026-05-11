@@ -1,9 +1,6 @@
 
 # Women's mobility networks enable more efficient travel
 
-**[Women's mobility networks enable more efficient travel](https://arxiv.org/abs/2604.00943)**
- — De Sojo, Lehmann & Alessandretti, arXiv:2604.00943 (2026)
-
 ## Contents
 
 - [Overview](#overview)
@@ -19,16 +16,23 @@
 
 ## Overview
 
-This repository provides the full computational pipeline accompanying the paper [*Women's mobility networks enable more efficient travel*](https://arxiv.org/abs/2604.00943). We study individual trajectories as networks of sequential visits using smartphone traces linked to self-reported gender. We show that women's mobility networks are simultaneously more clustered and more home-anchored, reflecting a tendency to chain multiple destinations within single trips — a structure that systematically yields higher travel efficiency measured as distance saved over monthly sequences.
+This repository contains the full computational pipeline for:
 
-The pipeline quantifies differences along four dimensions:
+**[Women's mobility networks enable more efficient travel](https://arxiv.org/abs/2604.00943)**
+De Sojo, Lehmann & Alessandretti — arXiv:2604.00943 (2026)
 
-- **Activity and repertoire** — number of visits and unique locations per user-month.
-- **Mobility-network topology** — centrality structure and network observables derived from individual mobility graphs.
-- **Tour and sequence organization** — how stops are chained into journeys and the role of keystone locations.
-- **Travel efficiency** — a distance-based metric balancing spatial reward against travel cost, analyzed under matched and unmatched comparisons.
+We model individual movement as a network of sequential location visits, constructed from smartphone traces linked to self-reported gender. The central finding is that women's mobility networks are simultaneously more clustered and more home-anchored than men's — a signature of trip-chaining, the practice of combining multiple errands into a single outing. This structural difference translates directly into greater travel efficiency: women cover more unique destinations per unit of distance traveled, on average, when measured over monthly movement sequences.
 
-The analysis proceeds in stages: PySpark pipelines compute metrics from raw stop-level traces; Python scripts perform statistical analyses; Jupyter notebooks generate publication-ready figures. Each stage is self-contained and can be run independently given the appropriate inputs.
+The pipeline quantifies these differences along four dimensions:
+
+- **Activity and repertoire** — visit counts and unique-location diversity per user-month.
+- **Mobility-network topology** — centrality and graph-level observables derived from individual mobility networks.
+- **Tour and sequence organization** — how stops are chained into trips and the role of keystone locations.
+- **Travel efficiency** — a distance-based metric balancing spatial reward against travel cost, evaluated under both matched and unmatched comparisons.
+
+The analysis runs in three stages: PySpark pipelines compute metrics from raw stop-level traces; Python scripts perform statistical analyses; Jupyter notebooks generate the publication figures. Each stage is self-contained and can be run independently given the appropriate inputs.
+
+For a complete, detailed description of the code's functionality, see [PSEUDOCODE.md](PSEUDOCODE.md).
 
 ---
 
