@@ -1,9 +1,7 @@
 
 # Women's mobility networks enable more efficient travel
 
-This repository contains the full computational pipeline for:
-
-**[Women's mobility networks enable more efficient travel](https://arxiv.org/abs/2604.00943)**
+This repository contains the full computational pipeline for: **[Women's mobility networks enable more efficient travel](https://arxiv.org/abs/2604.00943)**
 De Sojo, Lehmann & Alessandretti — arXiv:2604.00943 (2026)
 
 We model individual movement as a network of sequential location visits, constructed from smartphone traces linked to self-reported gender. The central finding is that women's mobility networks are simultaneously more clustered and more home-anchored than men's — a signature of trip-chaining, the practice of combining multiple errands into a single outing. This structural difference translates directly into greater travel efficiency: women cover more unique destinations per unit of distance traveled, on average, when measured over monthly movement sequences.
